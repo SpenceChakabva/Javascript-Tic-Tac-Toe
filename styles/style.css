@@ -1,0 +1,203 @@
+
+*,*::before,*::after{
+    box-sizing: border-box;
+}
+body{
+    background: linear-gradient(45deg,rgba(24, 95, 248, 0.808),rgba(112, 32, 216, 0.883));
+    margin: 0;
+    /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+}
+:root{
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size)*.9); 
+}
+.gameboard{
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(3, auto);
+}
+.box{
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 1px solid black;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box:first-child,
+.box:nth-child(2),
+.box:nth-child(3){
+    border-top: none;
+}
+.box:last-child,
+.box:nth-child(8),
+.box:nth-child(7){
+    border-bottom: none;
+}
+.box:nth-child(3n+1){
+    border-left: none;
+}
+.box:nth-child(3n+3){
+    border-right: none;
+}
+/* The box content rander */
+.box.x,
+.box.o,
+.gameboard.x,
+.gameboard.o{
+    cursor: pointer;
+}
+.box.x::before,
+.box.x::after,
+.box.o::before{
+    background: black;
+}
+.box.o::before,
+.box.o::after{
+    background: black;
+}
+.gameboard.x .box:not(.x):not(.o):hover::before,
+.gameboard.x .box:not(.x):not(.o):hover::after,
+.gameboard.o .box:not(.x):not(.o):hover::before{
+    background: lightgray; 
+}
+.box.x::before,
+.box.x::after,
+.gameboard.x .box:not(.x):not(.o):hover::before,
+.gameboard.x .box:not(.x):not(.o):hover::after{
+    content: '';
+    position: absolute;
+    width: calc(var(--mark-size)*.15);
+    height: var(--mark-size);
+}
+.box.x::before,
+.gameboard.x .box:not(.x):not(.o):hover::before{
+    transform: rotate(45deg);
+}
+.box.x::after,
+.gameboard.x .box:not(.x):not(.o):hover::after{
+    transform: rotate(-45deg);
+}
+.box.o::before,
+.box.o:after,
+.gameboard.o .box:not(.x):not(.o):hover::before,
+.gameboard.o .box:not(.x):not(.o):hover::after{
+    content: '';
+    position: absolute;
+   border-radius: 50%;
+}
+.box.o::before,
+.gameboard.o .box:not(.x):not(.o):hover::before{
+    width: var(--mark-size);
+    height: var(--mark-size);
+}
+.box.o:after,
+.gameboard.o .box:not(.x):not(.o):hover::after{
+    width: calc(var(--mark-size)*.7);
+    height: calc(var(--mark-size)*.7);
+    background: aliceblue;
+}
+/* Pop up results dialog */
+.content{
+    display: grid;
+    justify-items:center;
+    justify-content: baseline;
+}
+.results{
+    display: none;align-items: center;justify-content: center;
+    font-size: 5rem;color:aliceblue;
+    background: rgba(0, 0, 0, 0.774);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+}
+.results button{
+    color: aliceblue;
+    font-size: 3rem;
+    border-radius: 20px;
+    background: transparent;
+    border: 1px solid whitesmoke;
+    outline: none;
+    transition: .8s;
+    transition-property: color,border-color;
+    cursor: pointer;
+}
+.results button:hover{
+    border-color: rgba(75, 253, 164, 0.89);
+    color: rgba(96, 235, 142, 0.781);
+}
+.results.show{
+    display: flex;
+}
+#left-section{
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    /* justify-content: center; */
+    align-items: center;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 15vw;
+    color: aliceblue;
+    opacity: 1;
+    background: blueviolet;
+    animation-name: animate-pane;
+    animation-duration: 0.5s;
+    display: none;
+}
+@keyframes animate-pane{
+    0%{
+        left: 100%;
+    }
+    45%{
+        left: 50%;
+    }
+    75%{
+        left: 25%;
+    }
+    100%{
+        left: -.30;
+        display: none;
+    }
+}
+#left-section img{
+    margin-top: 3%;
+    height: 150px;
+    width: 150px;
+    border: 5px solid rgb(207, 255, 228);
+    border-radius: 100%;
+}
+#left-section h4{
+    font-size: 2rem;
+}
+#left-section p{
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 4%;
+    text-align: center;
+}
+#left-section button{
+    font-size: 18px;
+    padding: 5px 10px;
+    background: transparent;
+    outline: none;
+    font: 13px;
+    color: aliceblue;
+    border: 2px solid aquamarine;
+    border-radius: 10px;
+    transition: 0.8s;
+    transition-property: background;
+}
+#left-section button:hover{
+    background: aquamarine;
+}
